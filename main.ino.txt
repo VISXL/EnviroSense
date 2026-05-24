@@ -1,0 +1,39 @@
+#include <Arduino.h>
+#include "config.h"
+#include "sensors.h"
+#include "fsm.h"
+#include "outputs.h"
+
+static unsigned long lastPollMs = 0;
+
+void setup() {
+  Serial.begin(115200);
+  delay(200);
+  Serial.println("EnviroSense starting...");
+  sensorsBegin();
+  outputsBegin();
+  fsmBegin();
+}
+
+void loop() {
+  unsigned long now = millis();
+  unsigned long interval = fsmIsBusy() ? POLL_FAST_MS : POLL_NORMAL_MS;
+  if (now - lastPollMs >= interval) {
+    lastPollMs = now;
+    float t, h;
+    int light = 0;
+    bool ok = sensorsRead(t, h, light);
+    if (ok) {
+      sensorsPush(t, h);
+      fsmUpdate(light);
+      Serial.print("T=");      Serial.print(t, 1);
+      Serial.print(" H=");     Serial.print(h, 1);
+      Serial.print(" L=");     Serial.print(light);
+      Serial.print(" HSI=");   Serial.print(sensorsHSI(), 1);
+      Serial.print(" state="); Serial.println(fsmGetState());
+    } else {
+      fsmOnInvalidRead();
+    }
+  }
+  outputsTick(fsmGetState());
+}
