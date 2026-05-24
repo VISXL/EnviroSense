@@ -1,0 +1,94 @@
+<svg viewBox="0 0 700 780" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif" width="700" height="780">
+
+  <!-- Background -->
+  <rect width="700" height="780" fill="white"/>
+
+  <!-- Title -->
+  <text x="350" y="35" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a1a">EnviroSense — Finite State Machine</text>
+  <text x="350" y="55" text-anchor="middle" font-size="12" fill="#555">Visal Moy (s5398732) | Programming for Robotics</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+    <marker id="arrRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#991b1b"/>
+    </marker>
+  </defs>
+
+  <!-- ── IDLE ── -->
+  <rect x="250" y="75" width="200" height="70" rx="14" fill="#3B82F6" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="350" y="105" text-anchor="middle" font-size="16" font-weight="bold" fill="white">IDLE</text>
+  <text x="350" y="124" text-anchor="middle" font-size="11" fill="#dbeafe">🔵 Blue LED  |  Silent</text>
+
+  <!-- IDLE → MONITOR -->
+  <line x1="350" y1="145" x2="350" y2="188" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="235" y="153" width="230" height="20" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+  <text x="350" y="167" text-anchor="middle" font-size="10" fill="#333">First valid sensor read</text>
+
+  <!-- ── MONITOR ── -->
+  <rect x="250" y="188" width="200" height="70" rx="14" fill="#22C55E" stroke="#15803d" stroke-width="2"/>
+  <text x="350" y="218" text-anchor="middle" font-size="16" font-weight="bold" fill="white">MONITOR</text>
+  <text x="350" y="237" text-anchor="middle" font-size="11" fill="#dcfce7">🟢 Green LED  |  Silent</text>
+
+  <!-- MONITOR → WARNING -->
+  <line x1="350" y1="258" x2="350" y2="308" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="190" y="264" width="320" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+  <text x="350" y="278" text-anchor="middle" font-size="10" fill="#333">Temp &gt; 30°C  OR  Hum &gt; 70%  OR  HSI &gt; 30</text>
+  <text x="350" y="292" text-anchor="middle" font-size="10" fill="#888">(dark room: threshold drops to 27°C)</text>
+
+  <!-- ── WARNING ── -->
+  <rect x="250" y="308" width="200" height="70" rx="14" fill="#EAB308" stroke="#a16207" stroke-width="2"/>
+  <text x="350" y="338" text-anchor="middle" font-size="16" font-weight="bold" fill="white">WARNING</text>
+  <text x="350" y="357" text-anchor="middle" font-size="11" fill="#fefce8">🟡 Yellow Blink  |  Short Beeps</text>
+
+  <!-- WARNING → ALERT -->
+  <line x1="350" y1="378" x2="350" y2="428" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="190" y="385" width="320" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="1"/>
+  <text x="350" y="399" text-anchor="middle" font-size="10" fill="#333">Temp &gt; 35°C  AND  Hum &gt; 75%</text>
+  <text x="350" y="413" text-anchor="middle" font-size="10" fill="#888">(multi-condition — both must be true)</text>
+
+  <!-- ── ALERT ── -->
+  <rect x="250" y="428" width="200" height="70" rx="14" fill="#EF4444" stroke="#991b1b" stroke-width="2"/>
+  <text x="350" y="458" text-anchor="middle" font-size="16" font-weight="bold" fill="white">ALERT</text>
+  <text x="350" y="477" text-anchor="middle" font-size="11" fill="#fee2e2">🔴 Solid Red  |  2kHz Alarm</text>
+
+  <!-- WARNING + ALERT → MONITOR (left curved arrow) -->
+  <path d="M250 343 Q100 343 100 223 Q100 188 250 205" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="7,4" marker-end="url(#arrGreen)"/>
+  <path d="M250 463 Q70 463 70 223 Q70 188 250 205" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="7,4" marker-end="url(#arrGreen)"/>
+  <rect x="15" y="298" width="130" height="40" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="80" y="313" text-anchor="middle" font-size="10" fill="#15803d">Temp &lt; 28°C AND</text>
+  <text x="80" y="327" text-anchor="middle" font-size="10" fill="#15803d">Hum &lt; 65% for 2s</text>
+
+  <!-- ── FAIL ── -->
+  <rect x="250" y="620" width="200" height="70" rx="14" fill="#7F1D1D" stroke="#450a0a" stroke-width="2"/>
+  <text x="350" y="650" text-anchor="middle" font-size="16" font-weight="bold" fill="white">FAIL</text>
+  <text x="350" y="669" text-anchor="middle" font-size="11" fill="#fca5a5">🔴 Fast Blink  |  Low Fault Tone</text>
+
+  <!-- ANY → FAIL (right side) -->
+  <path d="M450 223 Q600 223 600 655 Q600 690 450 655" fill="none" stroke="#991b1b" stroke-width="2" stroke-dasharray="7,4" marker-end="url(#arrRed)"/>
+  <rect x="518" y="400" width="138" height="40" rx="6" fill="#fff1f2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="587" y="415" text-anchor="middle" font-size="10" fill="#991b1b">No valid sensor</text>
+  <text x="587" y="429" text-anchor="middle" font-size="10" fill="#991b1b">read for 3 seconds</text>
+
+  <!-- FAIL → MONITOR (bottom) -->
+  <path d="M350 620 L350 510 L350 258" fill="none" stroke="#16a34a" stroke-width="2" stroke-dasharray="7,4" marker-end="url(#arrGreen)"/>
+  <rect x="358" y="540" width="148" height="40" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="432" y="555" text-anchor="middle" font-size="10" fill="#15803d">Valid reads for 5s</text>
+  <text x="432" y="569" text-anchor="middle" font-size="10" fill="#15803d">→ back to MONITOR</text>
+
+  <!-- Legend -->
+  <rect x="20" y="640" width="200" height="105" rx="8" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="120" y="660" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Legend</text>
+  <line x1="35" y1="678" x2="75" y2="678" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="85" y="682" font-size="10" fill="#444">Normal transition</text>
+  <line x1="35" y1="700" x2="75" y2="700" stroke="#16a34a" stroke-width="2" stroke-dasharray="7,4" marker-end="url(#arrGreen)"/>
+  <text x="85" y="704" font-size="10" fill="#444">Recovery / safe path</text>
+  <line x1="35" y1="722" x2="75" y2="722" stroke="#991b1b" stroke-width="2" stroke-dasharray="7,4" marker-end="url(#arrRed)"/>
+  <text x="85" y="726" font-size="10" fill="#444">Fault / fail path</text>
+
+</svg>
